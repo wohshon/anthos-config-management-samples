@@ -40,18 +40,3 @@ spec:
         - name: SERVICE3_B
           value: "http://service3-svc.default.svc.cluster.local:8080/svc3/api/v1/service3/b"                 
         resources: {}
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: hello-service
-  annotations:
-    configmanagement.gke.io/namespace-selector: test-selector  
-spec:
-  selector:
-    app: frontend
-  ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 8080
-  type: LoadBalancer
