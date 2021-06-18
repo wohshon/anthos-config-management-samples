@@ -22,6 +22,8 @@ spec:
       - image: docker.io/wohshon/frontend:latest
         name: frontend
         env:
+        - name: GREETINGS
+          value: "Hello World!"
         - name: PORT
           value: "8080"
         - name: SERVICE1_A
