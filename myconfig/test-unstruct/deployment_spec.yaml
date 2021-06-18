@@ -1,82 +1,50 @@
-# Stateless application specification
-# The Deployment creates a single replicated Pod, indicated by the 'replicas' field
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   creationTimestamp: null
   labels:
-    app: quickstart-instance
-    migrate-for-anthos-optimization: "true"
-    migrate-for-anthos-version: v1.7.5
-  annotations:
-    configmanagement.gke.io/namespace-selector: test-selector
-  name: quickstart-instance
+    app: frontend
+  name: frontend
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: quickstart-instance
-      migrate-for-anthos-optimization: "true"
-      migrate-for-anthos-version: v1.7.5
+      app: frontend
   strategy: {}
   template:
     metadata:
-      creationTimestamp: null
       labels:
-        app: quickstart-instance
-        migrate-for-anthos-optimization: "true"
-        migrate-for-anthos-version: v1.7.5
+        app: frontend
     spec:
       containers:
-      - image: gcr.io/ws-test-anthos-hub-1623973038/quickstart-instance:6-18-2021--4-32-12
-        name: quickstart-instance
-        readinessProbe:
-          exec:
-            command:
-            - /code/ready.sh
+      - image: docker.io/wohshon/frontend:latest
+        name: frontend
+        env:
+        - name: PORT
+          value: "8080"
+        - name: SERVICE1_A
+          value: "http://service1-svc.default.svc.cluster.local:8080/svc1/api/v1/service1/a/"
+        - name: SERVICE1_B
+          value: "http://service1-svc.default.svc.cluster.local:8080/svc1/api/v1/service1/b"
+        - name: SERVICE2_A
+          value: "http://service2-svc.default.svc.cluster.local:8080/svc2/api/v1/service2/a/"
+        - name: SERVICE2_B
+          value: "http://service2-svc.default.svc.cluster.local:8080/svc2/api/v1/service2/b"
+        - name: SERVICE3_A
+          value: "http://service3-svc.default.svc.cluster.local:8080/svc3/api/v1/service3/a/"
+        - name: SERVICE3_B
+          value: "http://service3-svc.default.svc.cluster.local:8080/svc3/api/v1/service3/b"                 
         resources: {}
-        securityContext:
-          privileged: true
-        volumeMounts:
-        - mountPath: /sys/fs/cgroup
-          name: cgroups
-      volumes:
-      - hostPath:
-          path: /sys/fs/cgroup
-          type: Directory
-        name: cgroups
-      imagePullSecrets:
-      - name: gcr-secret
-
 ---
-# Headless Service specification -
-# No load-balancing, and a single cluster internal IP, only reachable from within the cluster
-# The Kubernetes endpoints controller will modify the DNS configuration to return records (addresses) that point to the Pods, which are labeled with "app": "quickstart-instance"
-apiVersion: v1
-kind: Service
-metadata:
-  creationTimestamp: null
-  labels:
-    migrate-for-anthos-optimization: "true"
-    migrate-for-anthos-version: v1.7.5
-  name: quickstart-instance
-spec:
-  clusterIP: None
-  selector:
-    app: quickstart-instance
-  type: ClusterIP
-
----
-
 apiVersion: v1
 kind: Service
 metadata:
   name: hello-service
 spec:
   selector:
-    app: quickstart-instance
+    app: frontend
   ports:
     - protocol: TCP
-      port: 80
-      targetPort: 80
+      port: 8080
+      targetPort: 8080
   type: LoadBalancer
