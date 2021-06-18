@@ -5,8 +5,8 @@ metadata:
   labels:
     app: frontend
   annotations:
-    configmanagement.gke.io/namespace-selector: test-selector
-    configsync.gke.io/cluster-name-selector: cluster-1    
+    configmanagement.gke.io/namespace-selector: test-ns-selector
+    configsync.gke.io/cluster-name-selector: cluster-1.cluster2    
   name: frontend
 spec:
   replicas: 1
@@ -46,7 +46,8 @@ kind: Service
 metadata:
   name: hello-service
   annotations:
-    configmanagement.gke.io/namespace-selector: test-selector  
+    configmanagement.gke.io/namespace-selector: test-ns-selector
+    configsync.gke.io/cluster-name-selector: cluster-1.cluster2    
 spec:
   selector:
     app: frontend

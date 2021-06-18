@@ -1,0 +1,26 @@
+kind: NamespaceSelector
+apiVersion: configmanagement.gke.io/v1
+metadata:
+  name: test-ns-selector
+spec:
+  selector:
+    matchLabels:
+      env: test
+---
+kind: NamespaceSelector
+apiVersion: configmanagement.gke.io/v1
+metadata:
+  name: dev-ns-selector
+spec:
+  selector:
+    matchLabels:
+      env: dev
+---
+kind: NamespaceSelector
+apiVersion: configmanagement.gke.io/v1
+metadata:
+  name: prod-ns-selector
+spec:
+  selector:
+    matchLabels:
+      env: prod
