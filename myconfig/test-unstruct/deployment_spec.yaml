@@ -47,7 +47,6 @@ spec:
         name: cgroups
       imagePullSecrets:
       - name: gcr-secret
-status: {}
 
 ---
 # Headless Service specification -
