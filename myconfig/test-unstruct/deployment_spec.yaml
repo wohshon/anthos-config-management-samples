@@ -22,6 +22,8 @@ spec:
       - image: docker.io/wohshon/frontend:latest
         name: frontend
         env:
+        - name: BG
+          value: "red"  
         - name: GREETINGS
           value: "Hello Covid Free Days!"
         - name: PORT
