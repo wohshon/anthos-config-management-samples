@@ -27,7 +27,7 @@ spec:
         - name: BG
           value: "red"  
         - name: GREETINGS
-          value: "Hello World!"
+          value: "Hello World!!!!"
         - name: PORT
           value: "8080"
         - name: SERVICE1_A
